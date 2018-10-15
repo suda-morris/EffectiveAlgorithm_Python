@@ -124,3 +124,33 @@ class MyHeap:
             self.up(idx)
 ```
 
+### 并查集
+
+```python
+class UnionFind:
+    def __init__(self, n):
+        self.up = list(range(n))  # 记录每个元素的根
+        self.rank = [0] * n  # 记录每个集合的高度
+
+    def find(self, x):
+        if self.up[x] == x:  # 本身就是根
+            return x
+        else:
+            self.up[x] = self.find(self.up[x])  # 递归寻找根元素，并压缩路径
+            return self.up[x]
+
+    def union(self, x, y):
+        x_root = self.find(x)
+        y_root = self.find(y)
+        if x_root == y_root:  # 已经在同一个集合中
+            return False
+        elif self.rank[x_root] < self.rank[y_root]:
+            self.up[x_root] = y_root
+        elif self.rank[x_root] > self.rank[y_root]:
+            self.up[y_root] = x_root
+        else:
+            self.up[y_root] = x_root
+            self.rank[x_root] += 1
+        return True
+```
+
