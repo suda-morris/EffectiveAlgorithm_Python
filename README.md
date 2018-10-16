@@ -1,5 +1,5 @@
 # EffectiveAlgorithm_Python
-## 关于Python
+## 关于Python的一些技巧
 
 1. Python使用高精度计算方式进行计算，而不使用二进制位来限制整数的大小。所以在Python中不存在哪个数可以指代正无穷大或负无穷大。但是对于**浮点数**，可以使用float(“inf”)和float(“-inf”)来指代正、负无穷大。
 
@@ -20,6 +20,17 @@
    1. `Queue`类，这是一个同步实现，意味着多进程可以同时访问同一个对象，但是它在执行同步的时候使用的信号机制会拖慢执行速度
    2. `Deque`类，即Double Ended Queue（双向队列），使用`append(element)`在尾部添加元素，使用`popleft()`在头部提取元素，使用`appendleft(element)`在头部添加元素，使用`pop`在尾部提取元素
 
+7. 在Python语言中，元祖比较采用字典序。这种方式能找到一个数组中的最大元素或者最小元素，同时还能找到它的下标。
+
+   `max((tab[i],i) for i in range(len(tab)))`
+
+   `min((tab[i],i) for i in tange(len(tab)))`
+
+8. Python语言中的排序:
+
+   1. sort()排序：这个方法会直接修改被排序的列表内容，称为“原地”修改
+   2. sorted()排序：这个方法会返回相关列表的一个排好序的副本
+
 
 
 ## 常见算法
@@ -33,6 +44,38 @@
 > 这种测试方法叫做Freivalds比较算法。**A**(**B** **x**) = **C** **x**成立，但是**A**x**B** != **C**的概率有多大？如果计算以*d*为模，错误的最大概率是1/d，这个概率在多次重复测试后变得极小。
 >
 > 源码详见：[freivalds算法Python描述](src/freivalds.py)
+
+
+
+### 数组中的多数元素（majority element)
+
+```python
+def majority(L):
+    compute = {}
+    for word in L:
+        if word in compute:
+            compute[word] += 1
+        else:
+            compute[word] = 1
+    minvalue,minkey = min((-compute[word],word) for word in compute)
+    return minkey, compute[minkey]
+```
+
+
+
+### 差值最小的两个整数
+
+```python
+def closet_value(L):
+    assert len(L) >= 2
+    L.sort()
+    minvalue,minarg = min((L[i]-L[i-1],i) for i in range(1,len(L)))
+    return L[minarg-1], L[minarg]
+```
+
+
+
+## 数据结构
 
 ### 使用两个栈模拟队列
 
